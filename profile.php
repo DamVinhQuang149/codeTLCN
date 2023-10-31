@@ -1,58 +1,57 @@
 <style type="text/css">
+.main-body {
+    padding: 15px;
+}
 
-    .main-body {
-        padding: 15px;
-    }
+.card {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+}
 
-    .card {
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
-    }
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+}
 
-    .card {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 0 solid rgba(0, 0, 0, .125);
-        border-radius: .25rem;
-    }
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
 
-    .card-body {
-        flex: 1 1 auto;
-        min-height: 1px;
-        padding: 1rem;
-    }
+.gutters-sm {
+    margin-right: -8px;
+    margin-left: -8px;
+}
 
-    .gutters-sm {
-        margin-right: -8px;
-        margin-left: -8px;
-    }
+.gutters-sm>.col,
+.gutters-sm>[class*=col-] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
 
-    .gutters-sm>.col,
-    .gutters-sm>[class*=col-] {
-        padding-right: 8px;
-        padding-left: 8px;
-    }
+.mb-3,
+.my-3 {
+    margin-bottom: 1rem !important;
+}
 
-    .mb-3,
-    .my-3 {
-        margin-bottom: 1rem !important;
-    }
+.bg-gray-300 {
+    background-color: #e2e8f0;
+}
 
-    .bg-gray-300 {
-        background-color: #e2e8f0;
-    }
+.h-100 {
+    height: 100% !important;
+}
 
-    .h-100 {
-        height: 100% !important;
-    }
-
-    .shadow-none {
-        box-shadow: none !important;
-    }
+.shadow-none {
+    box-shadow: none !important;
+}
 </style>
 <?php
 session_start();
@@ -121,18 +120,20 @@ if (isset($_GET['status'])) {
 <!-- HEADER -->
 <header>
 
- <!-- TOP HEADER -->
- <div id="top-header">
-            <div class="container">
-                <ul class="header-links pull-left">
+    <!-- TOP HEADER -->
+    <div id="top-header">
+        <div class="container">
+            <ul class="header-links pull-left">
                 <li><a href="tel:0935540795"><i class="fa fa-phone"></i> 0935.540.795</a></li>
-                    <li><a href="mailto:duyhoang04244@gmail.com"><i class="fa fa-envelope-o"></i> duyhoang042444@gmail.com</a></li>
-                    <li><a href="https://goo.gl/maps/HATUMepFByXb91iT7"><i class="fa fa-map-marker"></i> 01 Võ Văn Ngân - Phường Linh Chiểu - Thành phố Thủ Đức</a></li>
-                </ul>
-                <ul class="header-links pull-right">
-                   <!--  <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li> -->
-                    <?php $getLastname = $user->getLastname($_SESSION['user']); ?>
-                    <li><a href="profile.php">
+                <li><a href="mailto:duyhoang04244@gmail.com"><i class="fa fa-envelope-o"></i>
+                        duyhoang042444@gmail.com</a></li>
+                <li><a href="https://goo.gl/maps/HATUMepFByXb91iT7"><i class="fa fa-map-marker"></i> 01 Võ Văn Ngân -
+                        Phường Linh Chiểu - Thành phố Thủ Đức</a></li>
+            </ul>
+            <ul class="header-links pull-right">
+                <!--  <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li> -->
+                <?php $getLastname = $user->getLastname($_SESSION['user']); ?>
+                <li><a href="profile.php">
                         <i class="<?php if ($_SESSION['permision'] == 1) 
                         {
                             echo "fa fa-user-secret";
@@ -142,54 +143,54 @@ if (isset($_GET['status'])) {
                         {
                             echo $value['Last_name'];
                         } ?></a></li>
-                    <li><a href="admin/logoutuser.php"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
+                <li><a href="admin/logoutuser.php"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
 
-                </ul>
-            </div>
+            </ul>
         </div>
-        <!-- /TOP HEADER -->
+    </div>
+    <!-- /TOP HEADER -->
 
-        <!-- MAIN HEADER -->
-        <div id="header">
-            <!-- container -->
-            <div class="container">
-                <!-- row -->
-                <div class="row">
-                    <!-- LOGO -->
-                    <div class="col-md-3">
-                        <div class="header-logo">
-                            <a href="index.php" class="logo">
-                                <img src="./img/logobandoan.jpg" alt="">
-                            </a>
-                        </div>
+    <!-- MAIN HEADER -->
+    <div id="header">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- LOGO -->
+                <div class="col-md-3">
+                    <div class="header-logo">
+                        <a href="index.php" class="logo">
+                            <img src="./img/logobandoan.jpg" alt="">
+                        </a>
                     </div>
-                    <!-- /LOGO -->
+                </div>
+                <!-- /LOGO -->
 
-                    <!-- SEARCH BAR -->
-                    <div class="col-md-6">
-                        <div class="header-search">
-                            <form method="get" action="result.php">
-                                <select class="input-select" name="searchCol">
+                <!-- SEARCH BAR -->
+                <div class="col-md-6">
+                    <div class="header-search">
+                        <form method="get" action="result.php">
+                            <select class="input-select" name="searchCol">
                                 <option value="0">Tất cả</option>
-                                    <option value="1">Trái cây</option>
-                                    <option value="2">Bánh ngọt</option>
-                                    <option value="3">Rau củ</option>
-                                </select>
-                                <input name="keyword" class="input" placeholder="tìm kiếm">
-                                <button type="submit" class="search-btn">Tìm</button>
-                            </form>
-                        </div>
+                                <option value="1">Trái cây</option>
+                                <option value="2">Bánh ngọt</option>
+                                <option value="3">Rau củ</option>
+                            </select>
+                            <input name="keyword" class="input" placeholder="tìm kiếm">
+                            <button type="submit" class="search-btn">Tìm</button>
+                        </form>
                     </div>
-                    <!-- /SEARCH BAR -->
+                </div>
+                <!-- /SEARCH BAR -->
 
-                    <!-- ACCOUNT -->
-                    <div class="col-md-3 clearfix">
-                        <div class="header-ctn">
-                           <div class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span>Giỏ hàng</span>
-                                    <?php
+                <!-- ACCOUNT -->
+                <div class="col-md-3 clearfix">
+                    <div class="header-ctn">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Giỏ hàng</span>
+                                <?php
                                     $temp = 0;
                                    if(isset($_SESSION['cart'])){
                                     foreach ($_SESSION['cart'] as $value) {
@@ -197,67 +198,73 @@ if (isset($_GET['status'])) {
                                     }
                                    }
                                     ?>
-                                    <div class="qty"><?php echo $temp; ?></div>
-                                </a>
-                                <div class="cart-dropdown">
-                                    <div class="cart-list"><?php $totalPrice = 0;
+                                <div class="qty"><?php echo $temp; ?></div>
+                            </a>
+                            <div class="cart-dropdown">
+                                <div class="cart-list"><?php $totalPrice = 0;
                                                             $totalProduct = 0; ?>
-                                        <?php if (isset($_SESSION['cart'])) :
+                                    <?php if (isset($_SESSION['cart'])) :
 
                                             foreach ($_SESSION['cart'] as $key => $qty) :
                                                 $getAllProducts =  $product->getAllProducts();
                                                 foreach ($getAllProducts as $value) :
                                                     if ($value['id'] == $key) : ?>
-                                                        <?php $totalPrice += $value['price'] * $qty;
+                                    <?php $totalPrice += $value['price'] * $qty;
                                                         $totalProduct += 1;
                                                         ?>
-                                                        <div class="product-widget">
-                                                            <div class="product-img">
-                                                                <img src="./img/<?php echo $value['pro_image'] ?>" alt="">
-                                                            </div>
-                                                            <div class="product-body">
-                                                                <h3 class="product-name"><a href="detail.php?id=<?php echo $value['id'] ?>&type_id=<?php echo $value['type_id'] ?>"><?php echo $value['name'] ?></a></h3>
-                                                                <h4 class="product-price"><span class="qty"><?php echo $qty ?>x</span><?php echo number_format($value['price']) ?>VND</h4>
-                                                            </div>
-                                                            <a href="delcart1.php?id=<?php echo $value['id'] ?>"><button class="delete"><i class="fa fa-close"></i></button></a>
-                                                        </div>
-                                                    <?php endif ?>
-                                                <?php endforeach ?>
-                                            <?php endforeach ?>
-                                        <?php endif ?>
+                                    <div class="product-widget">
+                                        <div class="product-img">
+                                            <img src="./img/<?php echo $value['pro_image'] ?>" alt="">
+                                        </div>
+                                        <div class="product-body">
+                                            <h3 class="product-name"><a
+                                                    href="detail.php?id=<?php echo $value['id'] ?>&type_id=<?php echo $value['type_id'] ?>"><?php echo $value['name'] ?></a>
+                                            </h3>
+                                            <h4 class="product-price"><span
+                                                    class="qty"><?php echo $qty ?>x</span><?php echo number_format($value['price']) ?>VND
+                                            </h4>
+                                        </div>
+                                        <a href="delcart1.php?id=<?php echo $value['id'] ?>"><button class="delete"><i
+                                                    class="fa fa-close"></i></button></a>
                                     </div>
-                                    <div class="cart-summary">
-                                        <small><?php echo $totalProduct ?> Sản phẩm</small>
-                                        <h5>SUBTOTAL: <?php echo number_format($totalPrice) ?></h5>
-                                    </div>
-                                    <div class="cart-btns">
-                                        <a href="cart.php?type_id=1">Xem giỏ hàng</a>
-                                        <a href="orders.php">Xem đơn hàng <i class="fa fa-arrow-circle-right"></i></a>
-                                    </div>
+                                    <?php endif ?>
+                                    <?php endforeach ?>
+                                    <?php endforeach ?>
+                                    <?php endif ?>
+                                </div>
+                                <div class="cart-summary">
+                                    <small><?php echo $totalProduct ?> Sản phẩm</small>
+                                    <h5>SUBTOTAL: <?php echo number_format($totalPrice) ?></h5>
+                                </div>
+                                <div class="cart-btns">
+                                    <a href="cart.php?type_id=1">Xem giỏ hàng</a>
+                                    <a href="orders.php">Xem đơn hàng <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
-
-
-                            <!-- Menu Toogle -->
-                            <div class="menu-toggle">
-                                <a href="#">
-                                    <i class="fa fa-bars"></i>
-                                    <span>Menu</span>
-                                </a>
-                            </div>
-                            <!-- /Menu Toogle -->
                         </div>
+
+
+                        <!-- Menu Toogle -->
+                        <div class="menu-toggle">
+                            <a href="#">
+                                <i class="fa fa-bars"></i>
+                                <span>Menu</span>
+                            </a>
+                        </div>
+                        <!-- /Menu Toogle -->
                     </div>
-                    <!-- /ACCOUNT -->
                 </div>
-                <!-- row -->
+                <!-- /ACCOUNT -->
             </div>
-            <!-- container -->
+            <!-- row -->
         </div>
-        <!-- /MAIN HEADER -->
+        <!-- container -->
+    </div>
+    <!-- /MAIN HEADER -->
 
 
 </header>
+
 <body>
     <div class="container">
         <div class="main-body">
@@ -317,6 +324,15 @@ if (isset($_GET['status'])) {
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
+                                        <h6 class="mb-0">Email</h6>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <?php echo $value['email'] ?>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
                                         <h6 class="mb-0">Điện thoại</h6>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
@@ -340,8 +356,12 @@ if (isset($_GET['status'])) {
 
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a style="background-color: #f75e00;"  class="btn btn-reorder" href="editprofile.php?user_id=<?php echo $value['user_id']?>"><strong>Sửa</strong> <i class = "fa fa-pencil"></i></a>
-                                        <a style="background-color: #80bb35;"  class="btn btn-reorder" href="orders.php"><strong>Xem đơn hàng</strong> <i class = "fa fa-arrow-circle-right"></i></a>
+                                        <a style="background-color: #f75e00;" class="btn btn-reorder"
+                                            href="editprofile.php?user_id=<?php echo $value['user_id']?>"><strong>Sửa</strong>
+                                            <i class="fa fa-pencil"></i></a>
+                                        <a style="background-color: #80bb35;" class="btn btn-reorder"
+                                            href="orders.php"><strong>Xem đơn hàng</strong> <i
+                                                class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -353,6 +373,6 @@ if (isset($_GET['status'])) {
     </div>
     <script type="text/javascript">
 
-        
+
     </script>
     <?php include "footer.php" ?>
