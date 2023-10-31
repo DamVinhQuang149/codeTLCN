@@ -17,18 +17,18 @@ class User extends Db
         $item = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
         return $item; //return an array
     }
-    public function addUserNoImage($first_name, $last_name, $email, $phone, $username, $password, $role_id)
+    public function addUserNoImage($first_name, $last_name, $phone, $username, $password, $role_id)
     {
-        $sql = self::$connection->prepare("INSERT INTO `users`(`image`,`First_name`,`Last_name`, `email`, `phone`, `username`, `password`, `role_id`) VALUES('avatar7.png',?,?,?,?,?,?,?)");
+        $sql = self::$connection->prepare("INSERT INTO `users`(`image`,`First_name`,`Last_name`,`phone`,`username`, `password`, `role_id`) VALUES('avatar7.png',?,?,?,?,?,?)");
         $password = md5($password);
-        $sql->bind_param("sssissi", $first_name, $last_name, $email, $phone, $username, $password, $role_id);
+        $sql->bind_param("ssissi", $first_name, $last_name, $phone, $username, $password, $role_id);
         return $sql->execute(); //return an object
     }
-    public function addUser($first_name, $last_name, $email, $phone, $username, $password, $role_id, $image)
+    public function addUser($first_name, $last_name, $phone, $username, $password, $role_id, $image)
     {
-        $sql = self::$connection->prepare("INSERT INTO `users`(`First_name`,`Last_name`,`email`,`phone`,`username`, `password`, `role_id`,`image`) VALUES(?,?,?,?,?,?,?,?)");
+        $sql = self::$connection->prepare("INSERT INTO `users`(`First_name`,`Last_name`,`phone`,`username`, `password`, `role_id`,`image`) VALUES(?,?,?,?,?,?,?)");
         $password = md5($password);
-        $sql->bind_param("sssissis", $first_name, $last_name, $email, $phone, $username, $password, $role_id,$image);
+        $sql->bind_param("ssissis", $first_name, $last_name, $phone, $username, $password, $role_id,$image);
         return $sql->execute(); //return an object
     }
     public function deleteUser($user_id)
@@ -45,32 +45,32 @@ class User extends Db
         $item = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
         return $item; //return an array
     }
-    public function updateUser($first_name, $last_name, $email, $phone, $username, $password, $role_id, $image, $user_id)
+    public function updateUser($first_name, $last_name, $phone, $username, $password, $role_id, $image, $user_id)
     {
-        $sql = self::$connection->prepare("UPDATE `users` SET `First_name`=?, `Last_name`=?,`email`=?,`phone`=?,`username`=?, `password`=?, `role_id`=? ,`image` =? WHERE `user_id`=?");
+        $sql = self::$connection->prepare("UPDATE `users` SET `First_name`=?, `Last_name`=?,`phone`=?,`username`=?, `password`=?, `role_id`=? ,`image` =? WHERE `user_id`=?");
         $password = md5($password);
-        $sql->bind_param("sssissisi", $first_name, $last_name, $email, $phone, $username, $password, $role_id, $image, $user_id);
+        $sql->bind_param("ssissisi", $first_name, $last_name, $phone, $username, $password, $role_id, $image, $user_id);
         return $sql->execute(); //return an object
     }
-    public function updateUserNoImage($first_name, $last_name, $email, $phone, $username, $password, $role_id,  $user_id)
+    public function updateUserNoImage($first_name, $last_name, $phone, $username, $password, $role_id,  $user_id)
     {
-        $sql = self::$connection->prepare("UPDATE `users` SET `First_name`=?, `Last_name`=?,`email`=?,`phone`=?,`username`=?, `password`=?, `role_id`=?  WHERE `user_id`=?");
+        $sql = self::$connection->prepare("UPDATE `users` SET `First_name`=?, `Last_name`=?,`phone`=?,`username`=?, `password`=?, `role_id`=?  WHERE `user_id`=?");
         $password = md5($password);
-        $sql->bind_param("sssissii", $first_name, $last_name, $email, $phone, $username, $password, $role_id,  $user_id);
+        $sql->bind_param("ssissii", $first_name, $last_name, $phone, $username, $password, $role_id,  $user_id);
         return $sql->execute(); //return an object
     }
-    public function updateUserNoChangePassword($first_name, $last_name,$email, $phone, $username,  $role_id, $image, $user_id)
+    public function updateUserNoChangePassword($first_name, $last_name, $phone, $username,  $role_id, $image, $user_id)
     {
-        $sql = self::$connection->prepare("UPDATE `users` SET `First_name`=?, `Last_name`=?,`email`=?,`phone`=?,`username`=?, `role_id`=? ,`image` =? WHERE `user_id`=?");
+        $sql = self::$connection->prepare("UPDATE `users` SET `First_name`=?, `Last_name`=?,`phone`=?,`username`=?, `role_id`=? ,`image` =? WHERE `user_id`=?");
 
-        $sql->bind_param("sssisisi", $first_name, $last_name,$email, $phone, $username,  $role_id, $image, $user_id);
+        $sql->bind_param("ssisisi", $first_name, $last_name, $phone, $username,  $role_id, $image, $user_id);
         return $sql->execute(); //return an object
     }
-    public function updateUserNoChangePasswordNoImage($first_name, $last_name,$email, $phone, $username,  $role_id, $user_id)
+    public function updateUserNoChangePasswordNoImage($first_name, $last_name, $phone, $username,  $role_id, $user_id)
     {
-        $sql = self::$connection->prepare("UPDATE `users` SET `First_name`=?, `Last_name`=?,`email`=?,`phone`=?,`username`=?, `role_id`=? WHERE `user_id`=?");
+        $sql = self::$connection->prepare("UPDATE `users` SET `First_name`=?, `Last_name`=?,`phone`=?,`username`=?, `role_id`=? WHERE `user_id`=?");
 
-        $sql->bind_param("sssisii", $first_name, $last_name,$email, $phone, $username,  $role_id, $user_id);
+        $sql->bind_param("ssisii", $first_name, $last_name, $phone, $username,  $role_id, $user_id);
         return $sql->execute(); //return an object
     }
 
