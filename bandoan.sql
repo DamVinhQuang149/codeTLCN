@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 31, 2023 lúc 05:40 PM
--- Phiên bản máy phục vụ: 10.4.27-MariaDB
--- Phiên bản PHP: 8.0.25
+-- Máy chủ: 127.0.0.1:3306
+-- Thời gian đã tạo: Th10 31, 2023 lúc 03:52 PM
+-- Phiên bản máy phục vụ: 8.0.31
+-- Phiên bản PHP: 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `bandoan1`
+-- Cơ sở dữ liệu: `bandoan`
 --
 
 -- --------------------------------------------------------
@@ -27,17 +27,20 @@ SET time_zone = "+00:00";
 -- Cấu trúc bảng cho bảng `coupons`
 --
 
-CREATE TABLE `coupons` (
-  `coupon_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `coupons`;
+CREATE TABLE IF NOT EXISTS `coupons` (
+  `coupon_id` int NOT NULL AUTO_INCREMENT,
   `coupon_code` varchar(30) NOT NULL,
-  `coupon_type` int(11) NOT NULL,
-  `coupon_amount` int(11) NOT NULL,
-  `min_order` int(11) NOT NULL,
-  `coupon_quantity` int(11) NOT NULL,
-  `coupon_used` int(11) NOT NULL,
-  `coupon_remain` int(11) NOT NULL,
-  `coupon_expired` date NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `coupon_type` int NOT NULL,
+  `coupon_amount` int NOT NULL,
+  `min_order` int NOT NULL,
+  `coupon_quantity` int NOT NULL,
+  `coupon_used` int NOT NULL,
+  `coupon_remain` int NOT NULL,
+  `coupon_expired` date NOT NULL,
+  PRIMARY KEY (`coupon_id`,`coupon_code`),
+  UNIQUE KEY `coupon_code` (`coupon_code`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Đang đổ dữ liệu cho bảng `coupons`
@@ -49,7 +52,8 @@ INSERT INTO `coupons` (`coupon_id`, `coupon_code`, `coupon_type`, `coupon_amount
 (3, 'GIAMGIA100K', 0, 100000, 1000000, 30, 5, 25, '2023-11-10'),
 (4, 'GIAMGIA150K', 0, 150000, 500000, 30, 9, 21, '2023-11-09'),
 (5, '', 0, 0, 0, 123125, 4, 123121, '2114-12-31'),
-(6, 'GIAMGIATEST', 0, 120000, 1000000, 12, 0, 0, '2023-12-01');
+(6, 'GIAMGIATEST', 0, 120000, 1000000, 12, 0, 0, '2023-12-01'),
+(7, 'GIAMGIA30K', 0, 30000, 120000, 9, 2, 7, '2023-12-24');
 
 -- --------------------------------------------------------
 
@@ -57,10 +61,12 @@ INSERT INTO `coupons` (`coupon_id`, `coupon_code`, `coupon_type`, `coupon_amount
 -- Cấu trúc bảng cho bảng `coupons_type`
 --
 
-CREATE TABLE `coupons_type` (
-  `coupon_type` int(11) NOT NULL,
-  `type_name` varchar(30) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+DROP TABLE IF EXISTS `coupons_type`;
+CREATE TABLE IF NOT EXISTS `coupons_type` (
+  `coupon_type` int NOT NULL,
+  `type_name` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  PRIMARY KEY (`coupon_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
 
 --
 -- Đang đổ dữ liệu cho bảng `coupons_type`
@@ -76,10 +82,12 @@ INSERT INTO `coupons_type` (`coupon_type`, `type_name`) VALUES
 -- Cấu trúc bảng cho bảng `manufactures`
 --
 
-CREATE TABLE `manufactures` (
-  `manu_id` int(11) NOT NULL,
-  `manu_name` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `manufactures`;
+CREATE TABLE IF NOT EXISTS `manufactures` (
+  `manu_id` int NOT NULL AUTO_INCREMENT,
+  `manu_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  PRIMARY KEY (`manu_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `manufactures`
@@ -94,18 +102,20 @@ INSERT INTO `manufactures` (`manu_id`, `manu_name`) VALUES
 -- Cấu trúc bảng cho bảng `orders`
 --
 
-CREATE TABLE `orders` (
-  `order_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `phone` text NOT NULL,
-  `status` int(11) NOT NULL DEFAULT 0,
-  `coupon_discount` int(11) NOT NULL,
-  `total` int(11) NOT NULL,
-  `note` varchar(150) NOT NULL,
-  `checkout` int(11) NOT NULL,
-  `date_create` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE IF NOT EXISTS `orders` (
+  `order_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `address` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `phone` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `status` int NOT NULL DEFAULT '0',
+  `coupon_discount` int NOT NULL,
+  `total` int NOT NULL,
+  `note` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `checkout` int NOT NULL,
+  `date_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`order_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=255 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `orders`
@@ -212,17 +222,19 @@ INSERT INTO `orders` (`order_id`, `user_id`, `address`, `phone`, `status`, `coup
 -- Cấu trúc bảng cho bảng `order_details`
 --
 
-CREATE TABLE `order_details` (
-  `order_id` int(11) NOT NULL,
-  `product_name` varchar(50) NOT NULL,
-  `discount_price` int(11) NOT NULL,
-  `product_quantity` int(11) NOT NULL,
-  `cost` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `type_id` int(11) NOT NULL,
-  `product_image` varchar(150) NOT NULL,
-  `orderdetail_id` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `order_details`;
+CREATE TABLE IF NOT EXISTS `order_details` (
+  `order_id` int NOT NULL,
+  `product_name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `discount_price` int NOT NULL,
+  `product_quantity` int NOT NULL,
+  `cost` int NOT NULL,
+  `product_id` int NOT NULL,
+  `type_id` int NOT NULL,
+  `product_image` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `orderdetail_id` int NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`orderdetail_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=222 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `order_details`
@@ -392,14 +404,16 @@ INSERT INTO `order_details` (`order_id`, `product_name`, `discount_price`, `prod
 -- Cấu trúc bảng cho bảng `payments`
 --
 
-CREATE TABLE `payments` (
-  `order_id` int(11) NOT NULL,
-  `total_cost` int(11) NOT NULL,
+DROP TABLE IF EXISTS `payments`;
+CREATE TABLE IF NOT EXISTS `payments` (
+  `order_id` int NOT NULL,
+  `total_cost` int NOT NULL,
   `bankcode` varchar(50) NOT NULL,
   `content` varchar(5) NOT NULL,
   `card_type` varchar(24) NOT NULL,
-  `status` varchar(40) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `status` varchar(40) NOT NULL,
+  PRIMARY KEY (`order_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
 
 --
 -- Đang đổ dữ liệu cho bảng `payments`
@@ -420,18 +434,20 @@ INSERT INTO `payments` (`order_id`, `total_cost`, `bankcode`, `content`, `card_t
 -- Cấu trúc bảng cho bảng `products`
 --
 
-CREATE TABLE `products` (
-  `id` int(11) NOT NULL,
-  `name` varchar(150) NOT NULL,
-  `manu_id` int(11) NOT NULL,
-  `type_id` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
-  `discount_price` int(11) NOT NULL,
-  `pro_image` varchar(150) NOT NULL,
-  `description` text NOT NULL,
-  `feature` tinyint(4) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `products`;
+CREATE TABLE IF NOT EXISTS `products` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `manu_id` int NOT NULL,
+  `type_id` int NOT NULL,
+  `price` int NOT NULL,
+  `discount_price` int NOT NULL,
+  `pro_image` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `feature` tinyint NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `products`
@@ -463,10 +479,12 @@ INSERT INTO `products` (`id`, `name`, `manu_id`, `type_id`, `price`, `discount_p
 -- Cấu trúc bảng cho bảng `protypes`
 --
 
-CREATE TABLE `protypes` (
-  `type_id` int(11) NOT NULL,
-  `type_name` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `protypes`;
+CREATE TABLE IF NOT EXISTS `protypes` (
+  `type_id` int NOT NULL AUTO_INCREMENT,
+  `type_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  PRIMARY KEY (`type_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `protypes`
@@ -483,10 +501,12 @@ INSERT INTO `protypes` (`type_id`, `type_name`) VALUES
 -- Cấu trúc bảng cho bảng `roles`
 --
 
-CREATE TABLE `roles` (
-  `role_id` int(11) NOT NULL,
-  `role_name` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+  `role_id` int NOT NULL,
+  `role_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  PRIMARY KEY (`role_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `roles`
@@ -502,12 +522,14 @@ INSERT INTO `roles` (`role_id`, `role_name`) VALUES
 -- Cấu trúc bảng cho bảng `sales`
 --
 
-CREATE TABLE `sales` (
-  `id` int(11) NOT NULL,
-  `Sell_number` int(11) NOT NULL,
-  `Import_quantity` int(11) NOT NULL,
-  `Import_date` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `sales`;
+CREATE TABLE IF NOT EXISTS `sales` (
+  `id` int NOT NULL,
+  `Sell_number` int NOT NULL,
+  `Import_quantity` int NOT NULL,
+  `Import_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `sales`
@@ -545,10 +567,11 @@ INSERT INTO `sales` (`id`, `Sell_number`, `Import_quantity`, `Import_date`) VALU
 -- Cấu trúc bảng cho bảng `status`
 --
 
-CREATE TABLE `status` (
-  `status` int(11) NOT NULL,
+DROP TABLE IF EXISTS `status`;
+CREATE TABLE IF NOT EXISTS `status` (
+  `status` int NOT NULL,
   `status_name` varchar(100) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
 
 --
 -- Đang đổ dữ liệu cho bảng `status`
@@ -569,144 +592,27 @@ INSERT INTO `status` (`status`, `status_name`) VALUES
 -- Cấu trúc bảng cho bảng `users`
 --
 
-CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL,
-  `image` varchar(150) DEFAULT NULL,
-  `First_name` varchar(100) NOT NULL,
-  `Last_name` varchar(100) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `phone` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(250) NOT NULL,
-  `role_id` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `image` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `First_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `Last_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `phone` int NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `password` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `role_id` int NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`user_id`, `image`, `First_name`, `Last_name`, `email`, `phone`, `username`, `password`, `role_id`) VALUES
-(1, 'admin.jpg', 'Hồ ', 'Duy Hoàng', '', 935540795, 'hoang', '202cb962ac59075b964b07152d234b70', 1),
-(14, 'avatar3.jpg', 'Nguyễn ', 'Quốc Huy', '', 123456, 'huy', '202cb962ac59075b964b07152d234b70', 2),
-(17, NULL, 'Đàm ', 'Vinh Quang', '', 999777333, 'quang', '202cb962ac59075b964b07152d234b70', 1),
-(18, 'avatar7.png', 'quang1', 'dam1', 'damquang149@gmail.com', 374568503, 'vipz111', 'c987ed9c20cc7d892442e6c5aa1bb72e', 2);
-
---
--- Chỉ mục cho các bảng đã đổ
---
-
---
--- Chỉ mục cho bảng `coupons`
---
-ALTER TABLE `coupons`
-  ADD PRIMARY KEY (`coupon_id`,`coupon_code`),
-  ADD UNIQUE KEY `coupon_code` (`coupon_code`);
-
---
--- Chỉ mục cho bảng `coupons_type`
---
-ALTER TABLE `coupons_type`
-  ADD PRIMARY KEY (`coupon_type`);
-
---
--- Chỉ mục cho bảng `manufactures`
---
-ALTER TABLE `manufactures`
-  ADD PRIMARY KEY (`manu_id`);
-
---
--- Chỉ mục cho bảng `orders`
---
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`order_id`);
-
---
--- Chỉ mục cho bảng `order_details`
---
-ALTER TABLE `order_details`
-  ADD PRIMARY KEY (`orderdetail_id`);
-
---
--- Chỉ mục cho bảng `payments`
---
-ALTER TABLE `payments`
-  ADD PRIMARY KEY (`order_id`);
-
---
--- Chỉ mục cho bảng `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`);
-
---
--- Chỉ mục cho bảng `protypes`
---
-ALTER TABLE `protypes`
-  ADD PRIMARY KEY (`type_id`);
-
---
--- Chỉ mục cho bảng `roles`
---
-ALTER TABLE `roles`
-  ADD PRIMARY KEY (`role_id`);
-
---
--- Chỉ mục cho bảng `sales`
---
-ALTER TABLE `sales`
-  ADD PRIMARY KEY (`id`);
-
---
--- Chỉ mục cho bảng `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`);
-
---
--- AUTO_INCREMENT cho các bảng đã đổ
---
-
---
--- AUTO_INCREMENT cho bảng `coupons`
---
-ALTER TABLE `coupons`
-  MODIFY `coupon_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT cho bảng `manufactures`
---
-ALTER TABLE `manufactures`
-  MODIFY `manu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
--- AUTO_INCREMENT cho bảng `orders`
---
-ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=255;
-
---
--- AUTO_INCREMENT cho bảng `order_details`
---
-ALTER TABLE `order_details`
-  MODIFY `orderdetail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
-
---
--- AUTO_INCREMENT cho bảng `products`
---
-ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
-
---
--- AUTO_INCREMENT cho bảng `protypes`
---
-ALTER TABLE `protypes`
-  MODIFY `type_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT cho bảng `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+INSERT INTO `users` (`user_id`, `image`, `First_name`, `Last_name`, `phone`, `username`, `password`, `role_id`) VALUES
+(1, 'admin.jpg', 'Hồ ', 'Duy Hoàng', 935540795, 'hoang', '202cb962ac59075b964b07152d234b70', 1),
+(14, 'avatar3.jpg', 'Nguyễn ', 'Quốc Huy', 123456, 'huy', '202cb962ac59075b964b07152d234b70', 2),
+(17, NULL, 'Đàm ', 'Vinh Quang', 999777333, 'quang', '202cb962ac59075b964b07152d234b70', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

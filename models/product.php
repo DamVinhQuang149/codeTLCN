@@ -112,18 +112,82 @@ class Product extends Db
         $item = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
         return $item; //return an array
     }
-    public function get3ProductsByType($type_id, $page, $perPage)
+    public function get3ProductsByType($type_id, $page, $perPage, $from, $to)
     {
         // Tính số thứ tự trang bắt đầu
         $firstLink = ($page - 1) * $perPage;
-        $sql = self::$connection->prepare("SELECT * FROM products
-        WHERE type_id = ? LIMIT ?, ?");
-        $sql->bind_param("iii", $type_id, $firstLink, $perPage);
-        $sql->execute(); //return an object
-        $items = array();
+
+        $sqlQuery = "SELECT * FROM products WHERE type_id = ?";
+        
+        // Thêm điều kiện lọc giá nếu được chỉ định
+        if ($from !== null && $to !== null) {
+            $sqlQuery .= " AND discount_price BETWEEN ? AND ?";
+        }
+
+        $sqlQuery .= " ORDER BY discount_price ASC LIMIT ?, ?";
+
+        $sql = self::$connection->prepare($sqlQuery);
+
+        if ($from !== null && $to !== null) {
+            $sql->bind_param("iiiii", $type_id, $from, $to, $firstLink, $perPage);
+        } else {
+            $sql->bind_param("iii", $type_id, $firstLink, $perPage);
+        }
+
+        $sql->execute();
         $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
         return $items; //return an array
     }
+
+    public function getProductsKytuByType($type_id, $page, $perPage, $kytu)
+    {
+        // Tính số thứ tự trang bắt đầu
+        $firstLink = ($page - 1) * $perPage;
+
+        $sqlQuery = "SELECT * FROM products WHERE type_id = ?";
+        
+        // Thêm điều kiện lọc giá nếu được chỉ định
+        if ($kytu !== null) {
+            $sqlQuery .= " ORDER BY name $kytu LIMIT ?, ?";;
+        }
+
+        $sql = self::$connection->prepare($sqlQuery);
+
+        if ($kytu !== null) {
+            $sql->bind_param("iii", $type_id, $firstLink, $perPage);
+        } else {
+            $sql->bind_param("i", $type_id);
+        }
+
+        $sql->execute();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array
+    }
+    public function getProductsPriceByType($type_id, $page, $perPage, $price)
+    {
+        // Tính số thứ tự trang bắt đầu
+        $firstLink = ($page - 1) * $perPage;
+
+        $sqlQuery = "SELECT * FROM products WHERE type_id = ?";
+        
+        // Thêm điều kiện lọc giá nếu được chỉ định
+        if ($price !== null) {
+            $sqlQuery .= " ORDER BY discount_price $price LIMIT ?, ?";;
+        }
+
+        $sql = self::$connection->prepare($sqlQuery);
+
+        if ($price !== null) {
+            $sql->bind_param("iii", $type_id, $firstLink, $perPage);
+        } else {
+            $sql->bind_param("i", $type_id);
+        }
+
+        $sql->execute();
+        $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $items; //return an array
+    }
+
     
     public function paginate($url, $total, $perPage, $page)
     {
@@ -180,5 +244,21 @@ class Product extends Db
             $items = $sql->get_result()->fetch_all(MYSQLI_ASSOC);
             return $items; //return an array
         }
+    }
+    public function getMinProductPriceByCategory($type_id){
+        $sql = self::$connection->prepare("SELECT MIN(`discount_price`) as min_price FROM products WHERE `type_id` = ?");
+        $sql->bind_param("i", $type_id);
+        $sql->execute();
+        $result = $sql->get_result();
+        $minPrice = $result->fetch_assoc()['min_price'];
+        return $minPrice;
+    }
+    public function getMaxProductPriceByCategory($type_id){
+        $sql = self::$connection->prepare("SELECT MAX(`discount_price`) as max_price FROM products WHERE `type_id` = ?");
+        $sql->bind_param("i", $type_id);
+        $sql->execute();
+        $result = $sql->get_result();
+        $maxPrice = $result->fetch_assoc()['max_price'];
+        return $maxPrice;
     }
 }
